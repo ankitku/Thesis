@@ -1,0 +1,78 @@
+\message{ !name(PolyLTheta.tex)}\documentclass[12pt]{article}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{pifont}
+\usepackage{amsmath,amssymb}
+\usepackage{semantic}
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\title{%
+  Adding Polymorphic types to L\theta}
+
+\author{Ankit Kumar}
+
+\begin{document}
+
+\message{ !name(PolyLTheta.tex) !offset(-3) }
+
+Updated Syntax :\\
+
+Types\ \ \ $A,B$ ::= Unit $\mid A^{\theta} \rightarrow\ B \mid A+B
+\mid A@\theta \mid \alpha \mid \mu \alpha.A \mid \forall \alpha.A$ \\
+
+Terms\ \ \ $a,b$ ::= $x \mid$  rec$\ f\ x.a \mid a\ b \mid$ box$\ a \mid$
+unbox$\ x=a$ in $b \mid$ () $\mid$ inl\ $a \mid$ inr$\ a \mid$ case$\ a$\ of\
+{inl$\ x \Rightarrow a_1$;inr $\ x \Rightarrow a_2$} $\mid$ roll$\ a$
+$\mid$ unroll$\ a \mid \Lambda \alpha.a \mid a[\tau]$  \\
+
+Language Classifiers \ \ \  $\theta$ ::= L $\mid$ P \\
+
+Environments $\Delta\Gamma$ ::= . $\mid $ $\Delta \Gamma$,$x:^{\theta}
+A$\\
+
+ \hspace{25 mm}           $ \Delta$   ::=  .$\mid \Delta,\alpha$\\
+
+Values v::= $x \mid $ () $\mid $ inl$\ v \mid $ inr$\ v \mid $ rec$\
+f\ x.a \mid $ box$\ v \mid $roll$\ v \mid \Lambda \alpha$.v\\
+$$
+-------------------------
+$$
+In the L fragment of L$\theta$ language, we have to ensure that a term
+t whose type is quantified over types is not applied to another type
+which is quantified. eg. 
+$$
+T = \forall \tau.\tau -> \tau 
+$$
+$$
+id := \Lambda X.X \rightarrow X : \forall \tau.\tau -> \tau 
+$$
+$$
+ id\ T (impredicativity)
+$$
+impredicativity causes the L fragment to be inconsistent (Russel's
+paradox) and hence we need a way to limit such type applications.\\
+
+One way would be to allow type application, such that the type being
+applied is neutral (i.e. has no quantification).\\
+
+TUnivApp
+$$
+\inference{\Delta\Gamma \vdash^{L} e:\forall \alpha.A \quad \Delta \vdash
+B \quad neutral(B)}{\Delta\Gamma \vdash^{L} e[B]:[B/\alpha]A}  
+$$
+
+TUnivLam
+$$
+\inference{\Delta,\alpha,\Gamma \vdash^{\theta} e:B}{\Delta\Gamma
+  \vdash^{\theta} \Lambda \alpha.e:\forall \alpha.B}
+$$
+
+I think, as P part is inconsistent already, we can allow
+impradicativity too in P fragment.
+\end{document}
+
+\message{ !name(PolyLTheta.tex) !offset(-78) }
