@@ -51,4 +51,112 @@ $$
   \vdash^{\theta} \Lambda \alpha.e:\forall \alpha.B}
 $$
 
+
+$$
+-------------------------
+$$
+
+\section{Good terms}
+We define a set $_kGOOD_T$ of terms by induction on type T :
+\begin{itemize}
+\item t of atomic type T , then t doesn't get stuck for k steps
+\item t of arrow type $V \rightarrow W$, $\forall u j,  s.t.\  .\vdash u : V, u
+  \rightsquigarrow^j v \wedge irred(v), tv \in\ _{k-j}GOOD_W$
+\end{itemize}
+
+Now we define Well Behaved candidates of type T, for k steps as set $_kW_T$
+such that,\\
+(CW 1) If $t \in\  _kW_T$ then t doesn't get stuck before k steps of
+computation\\
+(CW 2)  If $t \in\  _kW_T$, $t \rightsquigarrow^i t'$ then $t \in\
+_{k-i}W_T$.\\
+(CW 3) If t is neutral and whenever we convert a redex of $t$, we obtain
+some term $t' \in\  _aW_T$ where $a$ is the lowest in all of the
+conversions, we have  $t \in\  _{a+1}W_T$.\\
+
+So, we have\\
+$$
+ _kW_T = \{t | . \vdash t : T,\ t\ satisfies\ CW\ 1,\ CW\ 2\ and\ CW\ 3\}
+$$
+$$
+_kW_X \rightarrow\ _{k-j}W_Y = \{t | . \vdash t : X \rightarrow
+Y,\forall j,x, j \leq k, x \in X s.t. x \rightarrow^j v \wedge
+irred(v),\ tx \in\ _{k-j}W_Y \}
+$$
+
+To Prove: Well behaved terms (which don' get stuck for k steps)
+satisfy the given 3 conditions.\\
+Proof: By induction on types.\\
+1. Atomic Types :
+ \begin{itemize}
+\item CW 1 : tautology
+\item CW 2 : if a computation has run on a term for i steps, only k-i
+  steps would remain till it is well. Hence, if $t \in\  _kW_T$, $t \rightsquigarrow^i t'$ then $t \in\
+_{k-i}W_T$.
+\item CW 3 : If t is neutral and whenever we convert a redex of $t$, we obtain
+some term $t' \in\  _aW_T$, where a is lowest in all conversions, then
+it is guaranteed that after any conversion, the term will remain well
+behaved for atleast a steps. Hence, $t \in\  _{a+1}W_T$.
+\end{itemize}
+
+\vspace
+
+2. Arrow types :
+\begin{itemize}
+\item CW 1: Let $u$ be a variable of type $U$. So, $u$ is neutral and
+  normal, hence well behaved for any number of steps. So, $tu \in
+  _kGOOD_V$. As $u$ doesn't consume any steps, hence $t$ is well
+  behaved for k steps.
+\item CW 2 :  Let $u$ be a variable of type $U$. So, $u$ is neutral and
+  normal, hence well behaved for any number of steps. Now, $tu
+  \rightsquigarrow^i t'u$, so, by I.H. CW 2on V type, $t'u \in
+  _{k-i}GOOD_V$. As u didn't consume any step, hence, $t
+  \rightsquigarrow^i t'$.
+\item CW 3 :  Let $u$ be a variable of type $U$. So, $u$ is neutral and
+  normal, hence well behaved for any number of steps. So, by I.H. on
+  the smaller type $W$, $tu \in\ _{a+1}W_T$ where a is lowest in all
+  conversions. As no computation in $u$, hence, $t \in\ _{a+1}W_T$.
+\end{itemize}
+
+
+Now, we define Candidates of Goodness as\\
+$$
+_kGOOD_{X_i}[\underbar{G}/\underbar{X}] =\ _kW_i
+$$
+$$
+_kGOOD_{Y \rightarrow Z}[\underbar{G}/\underbar{X}] =\ _kGOOD_Y[\underbar{G}/\underbar{X}] \rightarrow\ _{k-j}GOOD_Z[\underbar{G}/\underbar{X}]
+$$
+$$
+_kGOOD_{\forall Y.Z}[\underbar{G}/\underbar{X}] = \{t | \forall V, tV
+\in\ _kGOOD_Z[\underbar{G}/\underbar{X},\ _kW_V/Y]\}
+$$
+
+
+To Prove: $_kGOOD_{\forall Y.Z}}[\underbar{G}/\underbar{X}] $ is a goodness candidate for type
+$T[\underbar{U}/\underbar{X}]$.\\
+Proof : If $_kGOOD_{\forall Y.Z}}[\underbar{G}/\underbar{X}] $ is a goodness candidate for type
+$T[\underbar{U}/\underbar{X}]$ then it should fulfill CW 1, CW 2 and
+CW 3 :\\
+(CW 1) Let $t \in _kGOOD_{\forall Y.Z}}[\underbar{G}/\underbar{X}]$.
+Then for any type $V$ whose goodness candidate is $_kW_V$,  $tV \in\
+_kGOOD_Z[\underbar{G}/\underbar{X},\ _kW_V/Y]$ as defined.\\
+So, by Induction Hypothesis on smaller type, $tV$ is good. As there is
+no computation within $V$, hence t is good for k steps.\\ 
+(CW 2) Let $t \in _kGOOD_{\forall Y.Z}}[\underbar{G}/\underbar{X}]
+$ and $t \rightsquigarrow^i t'$. Then for all types $V$ and their
+goodness candidate $_kW_V$,  $tV \in\ _kGOOD_Z[\underbar{G}/\underbar{X},\ _kW_V/Y]$ and $tV
+\rightsquigarrow^i t'V$.\\
+By  Induction Hypothesis on smaller type, $t'V \in\
+_{k-i}GOOD_Z[\underbar{G}/\underbar{X},\ _kW_V/Y]$.\\
+Hence, $t' \in\ _{k-i}GOOD_{\forall
+  Y.Z}}[\underbar{G}/\underbar{X}]$. As $t'$ will be good only for
+$k-i$ more steps of computations, so, it satisfies CW 2.\\
+(CW 3) Let $t \in _kGOOD_{\forall Y.Z}[\underbar{G}/\underbar{X}]$.
+Then for any type $V$ whose goodness candidate is $_kW_V$,  $tV \in\
+_kGOOD_Z[\underbar{G}/\underbar{X},\ _kW_V/Y]$ as defined. Now by
+I.H. on CW 3, we know that if there are several redexes from tV, then
+$tV \in _{a+1}GOOD_Z[\underbar{G}/\underbar{X},\ _kW_V/Y]}$ where a is the
+minimum of all the other redexes. As no computation occurs in V, we
+can argue that $t \in _{a+1}GOOD_{\forall Y.Z}[\underbar{G}/\underbar{X},\ _kW_V/Y]}$.
+
 \end{document}
