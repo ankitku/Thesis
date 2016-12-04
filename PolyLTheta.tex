@@ -36,13 +36,13 @@ A$\\
 Values v::= $x \mid $ () $\mid $ inl$\ v \mid $ inr$\ v \mid $ rec$\
 f\ x.a \mid $ box$\ v \mid $roll$\ v \mid \Lambda \alpha$.t\\
 $$
--------------------------
+--------------------------------------------------
 $$
 
 TUnivApp
 $$
 \inference{\Delta\Gamma \vdash^{L} e:\forall \alpha.A \quad \Delta \vdash
-B \quad neutral(B)}{\Delta\Gamma \vdash^{L} e[B]:[B/\alpha]A}  
+B \quad }{\Delta\Gamma \vdash^{L} e[B]:[B/\alpha]A}  
 $$
 
 TUnivLam
@@ -64,6 +64,7 @@ We define a set $_kGOOD_T$ of terms by induction on type T :
   \rightsquigarrow^j v \wedge irred(v), tv \in\ _{k-j}GOOD_W$
 \end{itemize}
 
+\section{Well Behaved candidates}
 Now we define Well Behaved candidates of type T, for k steps as set $_kW_T$
 such that,\\
 (CW 1) If $t \in\  _kW_T$ then t doesn't get stuck before k steps of
@@ -112,14 +113,21 @@ behaved for atleast a steps. Hence, $t \in\  _{a+1}W_T$.
   \rightsquigarrow^i t'u$, so, by I.H. CW 2on V type, $t'u \in
   _{k-i}GOOD_V$. As u didn't consume any step, hence, $t
   \rightsquigarrow^i t'$.
-\item CW 3 :  Let $u$ be a variable of type $U$. So, $u$ is neutral and
+\item CW 3 :  To Prove : $t \in\ _{a+1}W_{U \rightarrow V}$.\\
+ Let $u$ be a variable of type $U$. So, $u$ is neutral and
   normal, hence well behaved for any number of steps. So, by I.H. on
-  the smaller type $W$, $tu \in\ _{a+1}W_T$ where a is lowest in all
-  conversions. As no computation in $u$, hence, $t \in\ _{a+1}W_T$.
+  the smaller type $V$, $tu \in\ _{a+1}W_V$ where a is lowest in all
+  conversions. As no computation in $u$, hence, $t \in\ _{a+1}W_{U
+    \rightarrow V}$.
 \end{itemize}
 
 
-Now, we define Candidates of Goodness as\\
+\section{Goodness with parameters}
+Let $T[\underbar{X}]$ be a type where $\underbar{X}$ contains atleast
+all the free variables in T. Let $\underbar{U}$ represent the sequence
+of types, of the same length as $\underbar{X}$. Let $\underbar{G}$ be
+the corresponding goodness candidates of types in $\underbar{U}$. Then,
+
 $$
 _kGOOD_{X_i}[\underbar{G}/\underbar{X}] =\ _kW_i
 $$
@@ -132,7 +140,7 @@ _kGOOD_{\forall Y.Z}[\underbar{G}/\underbar{X}] = \{t | \forall V, tV
 $$
 
 
-To Prove: $_kGOOD_{\forall Y.Z}}[\underbar{G}/\underbar{X}] $ is a goodness candidate for type
+\textbf{To Prove}: $_kGOOD_{\forall Y.Z}}[\underbar{G}/\underbar{X}] $ is a goodness candidate for type
 $T[\underbar{U}/\underbar{X}]$.\\
 Proof : If $_kGOOD_{\forall Y.Z}}[\underbar{G}/\underbar{X}] $ is a goodness candidate for type
 $T[\underbar{U}/\underbar{X}]$ then it should fulfill CW 1, CW 2 and
@@ -155,8 +163,8 @@ $k-i$ more steps of computations, so, it satisfies CW 2.\\
 Then for any type $V$ whose goodness candidate is $_kW_V$,  $tV \in\
 _kGOOD_Z[\underbar{G}/\underbar{X},\ _kW_V/Y]$ as defined. Now by
 I.H. on CW 3, we know that if there are several redexes from tV, then
-$tV \in _{a+1}GOOD_Z[\underbar{G}/\underbar{X},\ _kW_V/Y]}$ where a is the
+$tV \in\ _{a+1}GOOD_Z[\underbar{G}/\underbar{X},\ _kW_V/Y]}$ where a is the
 minimum of all the other redexes. As no computation occurs in V, we
-can argue that $t \in _{a+1}GOOD_{\forall Y.Z}[\underbar{G}/\underbar{X},\ _kW_V/Y]}$.
+can argue that $t \in\ _{a+1}GOOD_{\forall Y.Z}[\underbar{G}/\underbar{X},\ _kW_V/Y]}$.
 
 \end{document}

@@ -1,4 +1,4 @@
-\message{ !name(value_interp.tex)}\documentclass[12pt]{article}
+\documentclass[12pt]{article}
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage{graphicx}
@@ -15,9 +15,6 @@
 \author{Ankit Kumar}
 
 \begin{document}
-
-\message{ !name(value_interp.tex) !offset(-3) }
-
 
 Value interpretation for universal type is defined as :\\
 $$
@@ -77,7 +74,7 @@ $$
 ------------------------------------------------------------------------------------------------
 \\
 
-T-Univ-Lam rule:\\
+\textbf{T-Univ-Lam rule:}\\
 $$
 \inference{\Delta,\alpha,\Gamma \vdash^{\theta} e:B}{\Delta\Gamma
   \vdash^{\theta} \Lambda \alpha.e:\forall \alpha.B}
@@ -114,6 +111,7 @@ $v \in \mathscr{V}\llbracket \rho([T/ \alpha] B)
 \rrbracket_{k-j}^{P}$.\\
 Hence we get that $v \in  \mathscr{V}\llbracket [\rho([T/ \alpha] B)
 \rrbracket_{k-j}^{P}$.
+\end{itemize}
 
 \\
 \\
@@ -159,8 +157,7 @@ By the definition of $\mathscr{C}\llbracket\forall\alpha.A
 \rrbracket_k^L$, $\gamma(\rho(e)) \leadsto^{*} v_1 \in \mathscr{V}\llbracket \forall\alpha.A
 \rrbracket_k^L$.\\
 Hence $\gamma(\rho(e)) [\rho(B)] \leadsto^{*} v_1 [\rho(B)]$ from eq.\ref{e1}.\\
-Now as $v_1 \in \mathscr{V}\llbracket \forall\alpha.A \rrbracket_k^L$,
-it will look like $\wedge\alpha.v'$ for some $v'$ s.t. $\forall
+Now as $v_1 \in \mathscr{V}\llbracket \forall\alpha.A \rrbracket_k^L$,it will look like $\wedge\alpha.v'$ for some $v'$ s.t. $\forall
 T:Type, v'[T/\alpha] \in \mathscr{C}\llbracket [T/\alpha]A
 \rrbracket^L_k$.\\
 Initialising $\rho(B)$ in $T$ above, we get $v'[\rho(B)/\alpha] \in \mathscr{C}\llbracket [\rho(B)/\alpha]A
@@ -172,5 +169,3 @@ But $v''$ is actually $v$, hence proved.
 
 \end{itemize}
 \end{document}
-
-\message{ !name(value_interp.tex) !offset(-176) }

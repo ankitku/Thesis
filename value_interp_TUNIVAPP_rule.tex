@@ -1,0 +1,92 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{pifont}
+\usepackage{amsmath,amssymb}
+\usepackage{ mathrsfs }
+\usepackage{ stmaryrd }
+\usepackage{semantic}
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\author{Ankit Kumar}
+
+\begin{document}
+
+We have the T-Univ-App rule in L fragment:\\
+$$
+\inference{\Delta\Gamma \vdash^{L} e:\forall \alpha.A \quad \Delta \vdash
+B \quad }{\Delta\Gamma \vdash^{L} e[B]:[B/\alpha]A}  
+$$
+
+Where well-formed substitutions are defined as follows :\\
+\textbf{Well formed type substitutions :}\\
+$$
+\mathcal{D}\llbracket . \rrbracket = \{\phi\}
+$$
+$$
+\mathcal{D}\llbracket \Delta,\alpha \rrbracket = \{\rho[\alpha \rightarrow X]\ |\
+\rho \in \mathcal{D}\llbracket \Delta \rrbracket \wedge FTV(X) \in dom(\rho) \}
+$$
+\\
+\textbf{Well formed value substitutions :}\\
+$$
+\mathcal{G}\llbracket . \rrbracket = \{\phi\}
+$$
+$$
+\mathcal{G}\llbracket \Gamma , x:\tau \rrbracket^\rho_k = \{\gamma [x
+\rightarrow v]\ |\ \gamma \in \mathcal{G}\llbracket \Gamma
+\rrbracket^\rho_k \wedge v \in  \mathscr{V} \llbracket \rho(\tau) \rrbracket_k \}
+$$
+\\
+To prove the soundness theorem using T-Univ-App case:\\
+\textbf{Given:} $\Gamma \vdash^L  e [B] : [B/\alpha]A,\
+\Gamma \vDash_k  \gamma,\ \Delta \vDash \rho$\\
+\\
+\textbf{To Prove:} $\gamma(\rho(e [B])) \in
+\mathscr{C}\llbracket [\rho(B)/\alpha]A \rrbracket_k^L$\\
+\\
+\textbf{Proof:} From the definition of $\mathscr{C}\llbracket
+[\rho(B)/\alpha]A \rrbracket_k^L$, we need to prove
+\\
+\begin{itemize} 
+\item $. \vdash^L \gamma(\rho(e [B])) :  [\rho(B)/\alpha]A$
+  - By appeal to the substitution lemma\\
+\item if $ \gamma(\rho([B/\alpha]e)) \leadsto^{*} v$ ,
+$\Delta \vdash B, \Delta \vdash \Gamma$, then it suffices to show that\\
+$v \in \mathscr{V}\llbracket [\rho(B)/ \alpha] A
+\rrbracket_k^L$\\
+\\
+\begin{equation} \label{e1}
+\gamma(\rho(e [B])) = \gamma(\rho(e)) [\rho(B)]
+\end{equation}
+if $\alpha$ doesn't occur in $dom(\rho)$.\\
+\\
+By Induction Hypothesis,\\
+$$
+\Delta\Gamma \vdash^{L} e:\forall \alpha.A
+$$\\
+$$
+\gamma(\rho(e)) \in
+\mathscr{C}\llbracket\forall\alpha.A \rrbracket_k^L
+$$\\
+By the definition of $\mathscr{C}\llbracket\forall\alpha.A
+\rrbracket_k^L$, $\gamma(\rho(e)) \leadsto^{*} v_1 \in \mathscr{V}\llbracket \forall\alpha.A
+\rrbracket_k^L$.\\
+Hence $\gamma(\rho(e)) [\rho(B)] \leadsto^{*} v_1 [\rho(B)]$ from eq.\ref{e1}.\\
+Now as $v_1 \in \mathscr{V}\llbracket \forall\alpha.A \rrbracket_k^L$,
+it will look like $\wedge\alpha.v'$ for some $v'$ s.t. $\forall
+T:Type, v'[T/\alpha] \in \mathscr{C}\llbracket [T/\alpha]A
+\rrbracket^L_k$.\\
+Initialising $\rho(B)$ in $T$ above, we get $v'[\rho(B)/\alpha] \in \mathscr{C}\llbracket [\rho(B)/\alpha]A
+\rrbracket^L_k$.\\
+By definition of $\mathscr{C}\llbracket [\rho(B)/\alpha]A
+\rrbracket^L_k$, $v'[\rho(B)/\alpha] \leadsto^{*} v'' \in \mathscr{V}\llbracket [\rho(B)/\alpha]A
+\rrbracket^L_k$.\\
+But $v''$ is actually $v$, hence proved.
+
+\end{itemize}
+\end{document}
