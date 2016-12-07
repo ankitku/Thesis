@@ -1,4 +1,4 @@
-\message{ !name(value_interp.tex)}\documentclass[12pt]{article}
+\message{ !name(Polymorphic_Value_Interp.tex)}\documentclass[12pt]{article}
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage{graphicx}
@@ -6,171 +6,29 @@
 \usepackage{algpseudocode}
 \usepackage{pifont}
 \usepackage{amsmath,amssymb}
-\usepackage{ mathrsfs }
-\usepackage{ stmaryrd }
+\usepackage{mathrsfs }
+\usepackage{stmaryrd }
 \usepackage{semantic}
 \usepackage{geometry}
+\usepackage{accents}
+
 \geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\newcommand{\ub}[1]{\underaccent{\bar}{#1}}
+\newcommand{\larr}{\ensuremath{\longrightarrow{}}\xspace}
+\newcommand{\arr}{\ensuremath{\,\rightarrow\,}} 
 
 \author{Ankit Kumar}
 
 \begin{document}
 
-\message{ !name(value_interp.tex) !offset(-3) }
+\message{ !name(Polymorphic_Value_Interp.tex) !offset(23) }
 
+And so, the proof to Univ-T-app will go according to the definition.
+I am not sure if the interpretation should have $\theta$ in it or just
+L.\\
+Can we leave the P fragment definition with $j<k$, or would it be better
+to use this same definition in P fragment too?
 
-Value interpretation for universal type is defined as :\\
-$$
-\mathscr{V} \llbracket \forall \alpha . A \rrbracket_k^{\theta} =
-\{\wedge\alpha.e | . \vdash^{\theta} \wedge \alpha .e : \forall \alpha
-  . A\ \wedge \forall T:type, \forall j\leq k \ s.t. \Delta \vdash T, [T/\alpha]e \in
-  \mathscr{C}\llbracket [T/\alpha]A \rrbracket^{\theta}_j \}
-$$ 
-
-This definition can be used in proof of the Downward Closure Lemma as
-shown below :\\
-\\
-\textbf{To Prove :} if $v \in \mathscr{V}\llbracket \tau \rrbracket^{\theta}_k$
-and $j \leq k$ then $v \in \mathscr{V}\llbracket \tau
-\rrbracket^{\theta}_j$\\
-\textbf{Proof :} By induction on types :\\
-\begin{itemize}
-\item $\tau$ = Unit\\
-Trivial, will satisfy all j as indices are not even part of value
-interpretation.
-\item $\tau$ = $A^{\theta'} \rightarrow B$ and $\theta$ = L\\
-Suppose $i \leq j$ and $v' \in \mathscr{V}\llbracket A^{\theta'} \rrbracket^{L}_i$. \\
-Then $i \leq k$ also. Hence, By definition of $\mathscr{V} \llbracket
-A^{\theta'}  \rightarrow B \rrbracket^{L}_k$,\\
-$[v'/x]a \in \mathscr{C}\llbracket B \rrbracket^{L}_i$. This is true
-by definition of $\mathscr{V} \llbracket
-A^{\theta'}  \rightarrow B \rrbracket^{L}_j$ also. Hence proved.
-\item $\tau = \forall \alpha.A$\\
-let $i \leq j$ then $ i \leq k$ too.
-if $\wedge\alpha.e \in \mathscr{V} \llbracket \forall \alpha . A
-\rrbracket_k^{\theta}$ then  by definition, $\forall T:type \ s.t. \Delta \vdash T, [T/\alpha]e \in
-  \mathscr{C}\llbracket [T/\alpha]A \rrbracket^{\theta}_i$ \\
-Again, this is the same by definition for $\mathscr{V} \llbracket \forall \alpha . A
-\rrbracket_j^{\theta}$ also, hence proved.
-\end{itemize}
-------------------------------------------------------------------------------------------------\\
-
-Well-formed substitutions are defined as follows :\\
-\textbf{Well formed type substitutions :}\\
-$$
-\mathcal{D}\llbracket . \rrbracket = \{\phi\}
-$$
-$$
-\mathcal{D}\llbracket \Delta,\alpha \rrbracket = \{\rho[\alpha \rightarrow X]\ |\
-\rho \in \mathcal{D}\llbracket \Delta \rrbracket \wedge FTV(X) \in dom(\rho) \}
-$$
-\\
-\textbf{Well formed value substitutions :}\\
-$$
-\mathcal{G}\llbracket . \rrbracket = \{\phi\}
-$$
-$$
-\mathcal{G}\llbracket \Gamma , x:\tau \rrbracket^\rho_k = \{\gamma [x
-\rightarrow v]\ |\ \gamma \in \mathcal{G}\llbracket \Gamma
-\rrbracket^\rho_k \wedge v \in  \mathscr{V} \llbracket \rho(\tau) \rrbracket_k \}
-$$
-------------------------------------------------------------------------------------------------
-\\
-
-T-Univ-Lam rule:\\
-$$
-\inference{\Delta,\alpha,\Gamma \vdash^{\theta} e:B}{\Delta\Gamma
-  \vdash^{\theta} \Lambda \alpha.e:\forall \alpha.B}
-$$
-To prove the soundness theorem using T-Univ-Lam case in P fragment:\\
-\textbf{Given:} $\Gamma \vdash^{P} \wedge \alpha.e : \forall \alpha.B,\
-\Gamma \vDash_k  \gamma,\ \Delta \vDash \rho$\\
-\textbf{To Prove:} $\gamma(\rho(\wedge\alpha.e)) \in
-\mathscr{C}\llbracket \forall \alpha . B \rrbracket_k^{P}$\\
-\textbf{Proof:} From the definition of $\mathscr{C}\llbracket \forall
-\alpha . B \rrbracket_k^{P}$, we need to prove
-\begin{itemize} 
-\item $. \vdash^{P} \gamma(\rho(\wedge\alpha.e)) :  \forall \alpha . B$
-  - by appeal to the substitution lemma\\
-\item $\gamma(\rho(\wedge\alpha.e)) = \wedge\alpha.\gamma(\rho(e))$ if
-  $\alpha$ doesn't occur in $dom(\rho)$.\\
-From definition of $\mathscr{C} \llbracket \forall \alpha . A
-\rrbracket_k^{P} $, if $\forall T:type,\ \gamma(\rho([T/\alpha]e)) \leadsto^j v$ for all $j < k$,
-$\Delta \vdash \rho(\alpha), \Delta \vdash \Gamma$, then it suffices to show that\\
-$v \in \mathscr{V}\llbracket \rho([T/ \alpha] B)
-\rrbracket_{k-j}^{P}$\\
-\\
-By Induction Hypothesis,\\
-$$
-\Delta,\alpha,\Gamma \vdash^{P} e:B
-$$\\
-$$
-\forall T:type,\gamma(\rho([T/\alpha]e)) \in
-\mathscr{C}\llbracket\rho( [T/\alpha]B ) \rrbracket_k^{P}
-$$\\
-Now, we know that $\gamma(\rho([T/\alpha]e)) \leadsto^j v$ and from definition of
-$\mathscr{C}\llbracket\rho([T/\alpha] B ) \rrbracket_k^{P}$, we have\\
-$v \in \mathscr{V}\llbracket \rho([T/ \alpha] B)
-\rrbracket_{k-j}^{P}$.\\
-Hence we get that $v \in  \mathscr{V}\llbracket [\rho([T/ \alpha] B)
-\rrbracket_{k-j}^{P}$.
-
-\\
-\\
-------------------------------------------------------------------------------------------------\\
-\textbf{T-Univ-App rule}\\
-$$
-\inference{\Delta\Gamma \vdash^{\theta} e:\forall \alpha.A \quad \Delta \vdash
-B \quad }{\Delta\Gamma \vdash^{\theta} e[B]:[B/\alpha]A}  
-$$
-\\
-To prove the soundness theorem using T-Univ-App case in L fragment:\\
-\textbf{Given:} $\Gamma \vdash^L  e [B] : [B/\alpha]A,\
-\Gamma \vDash_k  \gamma,\ \Delta \vDash \rho$\\
-\\
-\textbf{To Prove:} $\gamma(\rho(e [B])) \in
-\mathscr{C}\llbracket [\rho(B)/\alpha]A \rrbracket_k^L$\\
-\\
-\textbf{Proof:} From the definition of $\mathscr{C}\llbracket
-[\rho(B)/\alpha]A \rrbracket_k^L$, we need to prove
-\\
-\begin{itemize} 
-\item $. \vdash^L \gamma(\rho(e [B])) :  [\rho(B)/\alpha]A$
-  - By appeal to the substitution lemma\\
-\item if $ \gamma(\rho([B/\alpha]e)) \leadsto^{*} v$ ,
-$\Delta \vdash B, \Delta \vdash \Gamma$, then it suffices to show that\\
-$v \in \mathscr{V}\llbracket [\rho(B)/ \alpha] A
-\rrbracket_k^L$\\
-\\
-\begin{equation} \label{e1}
-\gamma(\rho(e [B])) = \gamma(\rho(e)) [\rho(B)]
-\end{equation}
-if $\alpha$ doesn't occur in $dom(\rho)$.\\
-\\
-By Induction Hypothesis,\\
-$$
-\Delta\Gamma \vdash^{L} e:\forall \alpha.A
-$$\\
-$$
-\gamma(\rho(e)) \in
-\mathscr{C}\llbracket\forall\alpha.A \rrbracket_k^L
-$$\\
-By the definition of $\mathscr{C}\llbracket\forall\alpha.A
-\rrbracket_k^L$, $\gamma(\rho(e)) \leadsto^{*} v_1 \in \mathscr{V}\llbracket \forall\alpha.A
-\rrbracket_k^L$.\\
-Hence $\gamma(\rho(e)) [\rho(B)] \leadsto^{*} v_1 [\rho(B)]$ from eq.\ref{e1}.\\
-Now as $v_1 \in \mathscr{V}\llbracket \forall\alpha.A \rrbracket_k^L$,
-it will look like $\wedge\alpha.v'$ for some $v'$ s.t. $\forall
-T:Type, v'[T/\alpha] \in \mathscr{C}\llbracket [T/\alpha]A
-\rrbracket^L_k$.\\
-Initialising $\rho(B)$ in $T$ above, we get $v'[\rho(B)/\alpha] \in \mathscr{C}\llbracket [\rho(B)/\alpha]A
-\rrbracket^L_k$.\\
-By definition of $\mathscr{C}\llbracket [\rho(B)/\alpha]A
-\rrbracket^L_k$, $v'[\rho(B)/\alpha] \leadsto^{*} v'' \in \mathscr{V}\llbracket [\rho(B)/\alpha]A
-\rrbracket^L_k$.\\
-But $v''$ is actually $v$, hence proved.
-
-\end{itemize}
 \end{document}
-
-\message{ !name(value_interp.tex) !offset(-176) }
+\message{ !name(Polymorphic_Value_Interp.tex) !offset(-34) }

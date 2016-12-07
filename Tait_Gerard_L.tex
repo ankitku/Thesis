@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{pifont}
+\usepackage{amsmath,amssymb}
+\usepackage{mathrsfs }
+\usepackage{stmaryrd }
+\usepackage{semantic}
+\usepackage{geometry}
+\usepackage{accents}
+
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\newcommand{\ub}[1]{\underaccent{\bar}{#1}}
+\newcommand{\larr}{\ensuremath{\longrightarrow{}}\xspace}
+\newcommand{\arr}{\ensuremath{\,\rightarrow\,}} 
+
+\author{Ankit Kumar}
+
+\begin{document}
+Step-indexing in value interpretations can't accomodate T-Univ-App rule, hence we need to follow a different approach.\\
+So, for the L-fragment we will use Tait-Gerard's Reducibility Theorem (Section 14.3 of ``Proofs and Types'' book) to prove strong normalization of L fragment in LTheta language.\\
+\\
+All of the names, notations and lemmas used here are taken from ``Proofs and Types'' book and lemmas and theorems will be used here without their proofs.\\
+
+We restate the \textbf{Reducibility Theorem} (Section 14.3):\\
+Let t be a term of type $T$. Suppose all the free variables of t are among $x_1,...,x_n$ of types $U_1,...,U_n$, and all the free type variables of $T,U_1,...,U_n$ are among $X_1,...,X_m$. If $R_1,...,R_m$ are reducibility candidates of types $V_1,...,V_m$ and $u_1,...,u_n$ are terms of types $U_1[\ub{V}/\ub{X}],...,Un[\ub{V}/\ub{X}]$ which are in $RED_{U_1} [\ub{R}/\ub{X}], . . . , RED_{U_n} [\ub{R}/\ub{X}]$ then $t[\ub{V}/\ub{X}][\ub{u}/\ub{x}] \in RED_T[\ub{R}/\ub{X}]$.
+
+\vspace{5mm}
+
+\textbf{Proof}: By induction on typing derivations in L fragment.\\
+\begin{itemize}
+\item[\textbf{TLAM}]$\inference{\Delta\Gamma,y:^\theta A\vdash^Lb:B}{\Delta\Gamma\vdash^L\lambda y.b:A^\theta\arr B}$\\
+By I.H., $b[\ub{V}/\ub{X}][\ub{u}/\ub{x}][v/y]$ is reducible forall v reducible of type $A^\theta$\\
+From lemma 6.3.2, $\lambda y.b[\ub{V}/\ub{X}][\ub{u}/\ub{x}]$ is also reducible.
+\item[\textbf{TAPP}]$\inference{\Delta\Gamma\vdash^La:A^{\theta'}\arr B \quad \Delta\Gamma\vdash^L box\ b:A@\theta'}{\Delta\Gamma\vdash^Lab:B}$\\
+By I.H., $a[\ub{V}/\ub{X}][\ub{u}/\ub{x}]$ is reducible of type $A^{\theta'}\arr B$.\\
+box $b[\ub{V}/\ub{X}][\ub{u}/\ub{x}]$ is reducible of type $A@\theta'$.
+Hence $b[\ub{V}/\ub{X}][\ub{u}/\ub{x}]$ is reducible of type $A^{\theta'}$ (inversion on TBOXL).\\
+On application, $a[\ub{V}/\ub{X}][\ub{u}/\ub{x}]$ ($b[\ub{V}/\ub{X}][\ub{u}/\ub{x}]$) = $ab[\ub{V}/\ub{X}][\ub{u}/\ub{x}]$ which is reducible.
+\item[\textbf{T-UNIV-LAM}]$\inference{\Delta,\alpha,\Gamma \vdash^{\theta} e:B}{\Delta\Gamma
+  \vdash^{\theta} \Lambda \alpha.e:\forall \alpha.B}$\\
+By I.H., $e[\ub{V}/\ub{X}][\ub{u}/\ub{x}][\nu/\alpha] \in RED_B[\ub{R}/\ub{X}][S/\alpha]$ where $S$ is the reducibility candidate for type $\nu$.\\
+From Lemma 14.2.2, $\wedge \alpha.e[\ub{V}/\ub{X}][\ub{u}/\ub{x}] \in RED_B[\ub{R}/\ub{X}]$
+\item[\textbf{T-UNIV-LAM}]$ \inference{\Delta\Gamma \vdash^{L} e:\forall \alpha.A \quad \Delta \vdash
+B \quad }{\Delta\Gamma \vdash^{L} e[B]:[B/\alpha]A}  $\\
+By I.H., $e[\ub{V}/\ub{X}][\ub{u}/\ub{x}] \in RED_{\forall\alpha.A}[\ub{R}/\ub{X}]$.\\
+From Lemma 14.2.3, $e[B][\ub{V}/\ub{X}][\ub{u}/\ub{x}] \in RED_{[B/\alpha]A}[\ub{R}/\ub{X}]\ \forall B:type$\\
+\item[\textbf{TBOXL}]$\inference{\Delta\Gamma \vdash^L a:A}{\Delta\Gamma \vdash^L box\ a:A@\theta}$\\
+By I.H., if a is reducible then so is box a.\\
+\item[\textbf{TBOXLV}]$\inference{\Delta\Gamma \vdash^P v:A}{\Delta\Gamma \vdash^L box\ v:A@P}$\\
+By I.H. $v \in \mathscr{V}\llbracket A \rrbracket^P_k$. Thus, $box\ v \in \mathscr{V}\llbracket A@P \rrbracket^P_k$.\\
+As all values in $\mathscr{V}\llbracket A@P \rrbracket^P_k$ are values, it is a subset of $RED_{A@P}[\ub{R}/\ub{X}]$.\\
+Hence $box\ v \in RED_{A@P}[\ub{R}/\ub{X}]$.
+\item[\textbf{TFOVAL}]$\inference{\Delta\Gamma \vdash^P v:A \quad FO(A)}{\Delta\Gamma \vdash^L v:A}$\\
+By I.H., $v \in \mathscr{V}\llbracket A \rrbracket^P$. Thus, $v \in RED_A[\ub{R}/\ub{X}]$.\\
+$\Gamma \vDash_k \gamma$ when $x:^\theta A \in \Gamma$ implies $\rho x \in \mathscr{V}\llbracket A \rrbracket^{\theta}_k$.\\
+Thus all substitutions on terms coming from P fragment, if well founded, will take them to reducible sets of their corresponding types in L fragment.\\
+
+\item[\textbf{TINL}]$\inference{\Delta\Gamma \vdash^L a:A}{\Delta\Gamma \vdash^L inl\ a:A+B}$\\
+By I.H., $a[\ub{V}/\ub{X}][\ub{u}/\ub{x}] \in RED_A[\ub{R}/\ub{X}]$.\\
+So, $inl\ a[\ub{V}/\ub{X}][\ub{u}/\ub{x}] \in RED_A[\ub{R}/\ub{X}] \bigcup RED_B[\ub{R}/\ub{X}] = RED_{A+B}[\ub{R}/\ub{X}] $
+\end{itemize}
+
+Hence we can prove Strong Normalization in L fragment.
+\end{document}
