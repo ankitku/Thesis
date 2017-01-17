@@ -45,7 +45,7 @@ On application, $a[\ub{V}/\ub{X}][\ub{u}/\ub{x}]$ ($b[\ub{V}/\ub{X}][\ub{u}/\ub{
   \vdash^{\theta} \Lambda \alpha.e:\forall \alpha.B}$\\
 By I.H., $e[\ub{V}/\ub{X}][\ub{u}/\ub{x}][\nu/\alpha] \in RED_B[\ub{R}/\ub{X}][S/\alpha]$ where $S$ is the reducibility candidate for type $\nu$.\\
 From Lemma 14.2.2, $\wedge \alpha.e[\ub{V}/\ub{X}][\ub{u}/\ub{x}] \in RED_B[\ub{R}/\ub{X}]$
-\item[\textbf{T-UNIV-LAM}]$ \inference{\Delta\Gamma \vdash^{L} e:\forall \alpha.A \quad \Delta \vdash
+\item[\textbf{T-UNIV-APP}]$ \inference{\Delta\Gamma \vdash^{L} e:\forall \alpha.A \quad \Delta \vdash
 B \quad }{\Delta\Gamma \vdash^{L} e[B]:[B/\alpha]A}  $\\
 By I.H., $e[\ub{V}/\ub{X}][\ub{u}/\ub{x}] \in RED_{\forall\alpha.A}[\ub{R}/\ub{X}]$.\\
 From Lemma 14.2.3, $e[B][\ub{V}/\ub{X}][\ub{u}/\ub{x}] \in RED_{[B/\alpha]A}[\ub{R}/\ub{X}]\ \forall B:type$\\
