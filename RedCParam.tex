@@ -1,0 +1,126 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{pifont}
+\usepackage{amsmath,amssymb}
+\usepackage{mathrsfs }
+\usepackage{stmaryrd }
+\usepackage{semantic}
+\usepackage{geometry}
+\usepackage{accents}
+
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\newcommand{\ub}[1]{\underaccent{\bar}{#1}}
+\newcommand{\larr}{\ensuremath{\longrightarrow{}}\xspace}
+\newcommand{\sgarr}{\ensuremath{\rightsquigarrow{}}\xspace}
+\newcommand{\arr}{\ensuremath{\,\rightarrow\,}} 
+\newcommand{\llrr}[1]{\llbracket {#1} \rrbracket}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+\author{Ankit Kumar}
+
+\begin{document}
+Let $T[\ub{X}]$ be a type where $\ub{X}$ contains all the free
+variables of T. Let $\ub{U}$ be a sequence of types of the same
+length; then we can define a type $T[\ub{U}/\ub{X}]$ by simultaneous
+substitution of types. Let $PAR\mathscr{C}\llrr{U_i}^\theta_k$ and $PAR\mathscr{V}\llrr{U_i}^\theta_k$ be
+the parametrised value and parametrised  computational interpretations of the type
+U. Let $\ub{R}$ stand for the candidates of reducibility (C.R.) for
+the sequence of types. Then we define the set
+$PAR\mathscr{V}\llrr{T}^\theta_k[\ub{R}/\ub{X}]$ and
+$PAR\mathscr{C}\llrr{T}^\theta_k[\ub{R}/\ub{X}]$ for terms of type
+$T[\ub{U}/\ub{X}]$ as follows :
+\begin{itemize}
+\item $T = X_i$, then $PAR\mathscr{C}\llrr{T}^\theta_k[\ub{R}/\ub{X}]$ =$R[U_i]^\theta_k$
+\item $T = Unit$\\
+$PAR\mathscr{V}^{\theta}_k[\ub{R}/\ub{X}]  = \{()\}$
+\item $T = A+B$\\
+$PAR\mathscr{V}\llrr{T}^{\theta}_k[\ub{R}/\ub{X}] = \{inl\ v | v \in
+PAR\mathscr{V}\llrr{A}^{\theta}_k[\ub{R}/\ub{X}]\}  \bigcup \{inr\ v | v \in
+PAR\mathscr{V}\llrr{B}^{\theta}_k[\ub{R}/\ub{X}]\} $
+\item $T = A@\theta'$\\
+$PAR\mathscr{V}\llrr{T}^L_k[\ub{R}/\ub{X}] = \{box\ v | v \in PAR\mathscr{V}\llrr{A}^{\theta'}_k[\ub{R}/\ub{X}]\}$
+
+\item $T = A^{\theta'} \arr B $ then,\\
+$
+PAR\mathscr{V}\llrr{T}^L_k[\ub{R}/\ub{X}] = \{rec\ f\ x.a | . \vdash^L rec\ f\
+  x.a : T[\ub{U}/\ub{X}]\ and\ \forall j \leq k,\ if\ v \in
+  PAR\mathscr{V}\llrr{A}^{\theta'}_j[\ub{R}/\ub{X}]\ then\ [v/x]a \in  PAR\mathscr{C}\llrr{B}^L_j[\ub{R}/\ub{X}]\}
+$\\
+$
+PAR\mathscr{V}^P_k\llrr{T}[\ub{R}/\ub{X}] = \{rec\ f\ x.a | . \vdash^P rec\ f\
+  x.a : T[\ub{U}/\ub{X}]\ and\ \forall j < k,\ if\ v \in
+  PAR\mathscr{V}\llrr{A}^{\theta'}_j[\ub{R}/\ub{X}]\ then\ [v/x][rec\
+  f\ x.a/f]a \in  PAR\mathscr{C}\llrr{B}^P_j[\ub{R}/\ub{X}]\}
+$
+\item $T = \mu\alpha.a$\\
+$
+ PAR\mathscr{V}\llrr{T}^P_k[\ub{R}/\ub{X}] = \{roll\ v | . \vdash^P
+ roll\ v: \mu\alpha.a[\ub{U}/\ub{X}]\ and\ \forall j < k,\ v \in
+  PAR\mathscr{V}\llrr{[\mu\alpha.a/\alpha]A}^P_j[\ub{R}/\ub{X}]\}
+$\\
+ $PAR\mathscr{V}\llrr{T}^L_k[\ub{R}/\ub{X}] = \phi$ 
+\item $T = \forall\alpha.A$\\
+$
+PAR\mathscr{V}\llrr{\forall \alpha.A}^{\theta}_k[\ub{R}/\ub{X}] = \{ t |
+\forall V:type\ s.t.\ R[V]^\theta_j\ is\ C.R.\ of\ V,\ tV \in PAR\mathscr{C}\llrr{A}^{\theta}_k[\ub{R}/\ub{X},R[V]^\theta_j/\alpha]\}
+$
+
+\end{itemize}
+
+And parametrised computational interpretations are defined as :\\
+$$
+PAR\mathscr{C}\llrr{T}^P_k[\ub{R}/\ub{X}] = \{a | .\vdash^P
+a:T[\ub{U}/\ub{X}]\ and\ \forall j \leq k,\ if\ a\sgarr^j v\ then\ v
+\in PAR\mathscr{V}\llrr{T}^P_{k-j}[\ub{R}/\ub{X} ]\}
+$$
+$$
+PAR\mathscr{C}\llrr{T}^L_k[\ub{R}/\ub{X}] = \{a | .\vdash^P
+a:T[\ub{U}/\ub{X}]\ and\ a \sgarr^{*} v
+\in PAR\mathscr{V}\llrr{T}^L_k[\ub{R}/\ub{X}]\}
+$$
+
+\\
+\\
+
+Now, for the case
+ $T = \forall\alpha.A$\\
+$$
+PAR\mathscr{V}\llrr{\forall \alpha.A}^{\theta}_k[\ub{R}/\ub{X}] = \{ t
+| \forall V:type\ s.t.\ R[V]^\theta_j\ is\ C.R.\ of\ V,\ tV \in PAR\mathscr{C}\llrr{A}^{\theta}_k[\ub{R}/\ub{X},R[V]^\theta_j/\alpha]\}
+$$
+
+We need the candidates of reducibility to fulfill conditions :\\
+\begin{itemize}
+\item $R[A]^{\theta}_k$ needs to be Strongly Normalizing (atleast in
+  L, what about P?)
+\item If $t \sgarr t'$ and $t' \in R[A]^{\theta}_j,\ then\ t \in
+  R[A]^{\theta}_j$.
+\end{itemize}
+
+
+Now we need to define reducibility candidates for each type :
+\begin{itemize}
+\item T=Unit : $R[Unit]^{\theta}_k = {()}$\\
+CR1 and CR2 hold trivially.
+\item T=A+B : $R[A+B]^{\theta}_k = \{inl\ a|a \in R[A]^{\theta}_k\} \cup \{inr\ b|b \in R[B]^{\theta}_k\}$\\
+CR1 : By I.H. both $ R[A]^{\theta}_k$ and  $ R[B]^{\theta}_k$ are SN.\\
+CR2 : from I.H. if $a \in R[A]^{\theta}_k$ then $ a \in
+R[A]^{\theta}_j$ by CR2. Similarly $b \in
+R[B]^{\theta}_j$ by CR2. Hence $\{inl\ a|a \in R[A]^{\theta}_k\} \cup
+\{inr\ b|b \in R[B]^{\theta}_k\} \in R[A+B]^{\theta}_j$.
+\item T=$A^{\theta'} \arr B}$ : $R[A^{\theta'} \arr B]^L_k = \{t| t
+\sgarr^{*} v \wedge irred(v) \wedge
+\forall j \leq k,\ if\ a \in R[A]^{\theta'}_k\ then\ ta\in R[B]^L_j\}$\\
+CR1:by def.\\
+CR2: let $a \in R[A]^{\theta'}_i$ where $i \leq j \leq k$ then if $t
+\in R[A^{\theta'} \arr B]^L_k$ then $ta \in R[B]^L_i$, which is true
+also when $t
+\in R[A^{\theta'} \arr B]^L_j$
+\end{itemize}
+
+\end{document}

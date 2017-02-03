@@ -1,4 +1,4 @@
-\message{ !name(ParamRedLTheta.tex)}\documentclass[12pt]{article}
+\message{ !name(RedCParam.tex)}\documentclass[12pt]{article}
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage{graphicx}
@@ -25,147 +25,10 @@
 
 \begin{document}
 
-\message{ !name(ParamRedLTheta.tex) !offset(-3) }
-
-Let $T[\ub{X}]$ be a type where $\ub{X}$ contains all the free
-variables of T. Let $\ub{U}$ be a sequence of types of the same
-length; then we can define a type $T[\ub{U}/\ub{X}]$ by simultaneous
-substitution of types. Let $PAR\mathscr{C}\llrr{U_i}^\theta_k$ and $PAR\mathscr{V}\llrr{U_i}^\theta_k$ be
-the parametrised value and parametrised  computational interpretations of the type
-U. Let $\ub{R}$ stand for the parametrised interpretations (P.I.) for
-the sequence of types. Then we define the set
-$PAR\mathscr{V}\llrr{T}^\theta_k[\ub{R}/\ub{X}]$ and
-$PAR\mathscr{C}\llrr{T}^\theta_k[\ub{R}/\ub{X}]$ for terms of type
-$T[\ub{U}/\ub{X}]$ as follows :
-\begin{itemize}
-\item $T = X_i$, then $PAR\mathscr{V}\llrr{T}^\theta_k[\ub{R}/\ub{X}]$= $\mathscr{V}\llrr{U_i}^\theta_k$\\
-\tab and $PAR\mathscr{C}\llrr{T}^\theta_k[\ub{R}/\ub{X}]$ =
-$\mathscr{C}\llrr{U_i}^\theta_k$
-\item $T = Unit$\\
-$PAR\mathscr{V}^{\theta}_k[\ub{R}/\ub{X}]  = \{()\}$
-\item $T = A+B$\\
-$PAR\mathscr{V}\llrr{T}^{\theta}_k[\ub{R}/\ub{X}] = \{inl\ v | v \in
-PAR\mathscr{V}\llrr{A}^{\theta}_k[\ub{R}/\ub{X}]\}  \bigcup \{inr\ v | v \in
-PAR\mathscr{V}\llrr{B}^{\theta}_k[\ub{R}/\ub{X}]\} $
-\item $T = A@\theta'$\\
-$PAR\mathscr{V}\llrr{T}^L_k[\ub{R}/\ub{X}] = \{box\ v | v \in PAR\mathscr{V}\llrr{A}^{\theta'}_k[\ub{R}/\ub{X}]\}$
-
-\item $T = A^{\theta'} \arr B $ then,\\
-$
-PAR\mathscr{V}\llrr{T}^L_k[\ub{R}/\ub{X}] = \{rec\ f\ x.a | . \vdash^L rec\ f\
-  x.a : T[\ub{U}/\ub{X}]\ and\ \forall j \leq k,\ if\ v \in
-  PAR\mathscr{V}\llrr{A}^{\theta'}_j[\ub{R}/\ub{X}]\ then\ [v/x]a \in  PAR\mathscr{C}\llrr{B}^L_j[\ub{R}/\ub{X}]\}
-$\\
-$
-PAR\mathscr{V}^P_k\llrr{T}[\ub{R}/\ub{X}] = \{rec\ f\ x.a | . \vdash^P rec\ f\
-  x.a : T[\ub{U}/\ub{X}]\ and\ \forall j < k,\ if\ v \in
-  PAR\mathscr{V}\llrr{A}^{\theta'}_j[\ub{R}/\ub{X}]\ then\ [v/x][rec\
-  f\ x.a/f]a \in  PAR\mathscr{C}\llrr{B}^P_j[\ub{R}/\ub{X}]\}
-$
-\item $T = \mu\alpha.a$\\
-$
- PAR\mathscr{V}\llrr{T}^P_k[\ub{R}/\ub{X}] = \{roll\ v | . \vdash^P
- roll\ v: \mu\alpha.a[\ub{U}/\ub{X}]\ and\ \forall j < k,\ v \in
-  PAR\mathscr{V}\llrr{[\mu\alpha.a/\alpha]A}^P_j[\ub{R}/\ub{X}]\}
-$\\
- $PAR\mathscr{V}\llrr{T}^L_k[\ub{R}/\ub{X}] = \phi$ 
-\item $T = \forall\alpha.A$\\
-$
-PAR\mathscr{V}\llrr{\forall \alpha.a}^{\theta}_k[\ub{R}/\ub{X}] = \{ t |
-\forall V:type\ s.t.\ S\ is\ P.I.\ of\ V,\ tV \in PAR\mathscr{C}\llrr{A}^{\theta}_k[\ub{R}/\ub{X},S/Y]\}
-$
-
-\end{itemize}
-
-And parametrised computational interpretations are defined as :\\
-$$
-PAR\mathscr{C}\llrr{T}^P_k[\ub{R}/\ub{X}] = \{a | .\vdash^P
-a:T[\ub{U}/\ub{X}]\ and\ \forall j \leq k,\ if\ a\sgarr^j v\ then\ v
-\in PAR\mathscr{V}\llrr{T}^P_{k-j}[\ub{R}/\ub{X}]\}
-$$
-$$
-PAR\mathscr{C}\llrr{T}^L_k[\ub{R}/\ub{X}] = \{a | .\vdash^P
-a:T[\ub{U}/\ub{X}]\ and\ a \sgarr^{*} v
-\in PAR\mathscr{V}\llrr{T}^L_k[\ub{R}/\ub{X}]\}
-$$
-Observe that Computational Interpretations in the L fragment satisfy
-all the CR conditions as given in proofs and types book :\\
-
-\textbf{Lemma 1.} $\mathscr{C}\llrr{A}^L_k$ is a reducibility
-candidate for a type A.
-for type A.\\
-\textbf{Proof.} By definition of computational interpretation,
-$\mathscr{C}\llrr{A}^L_k$ should satisfy conditions CR 1-3.\\
-$$
-\mathscr{C}\llrr{A}^L_k = \{a | . \vdash^L a:A \wedge a \sgarr^{*} v \in \mathscr{V}\llrr{A}^L_k\} 
-$$
-\begin{itemize}
-\item{CR-1:} by definition, terms in $\mathscr{C}\llrr{A}^L_k$  reduce
-  to a value
-\item{CR-2:} If $a \sgarr a'$ then $a' \in \mathscr{C}\llrr{A}^L_k$ as $a' \sgarr^{*} v \in \mathscr{V}\llrr{A}^L_k$
-\item{CR-3:} Similarly, if a is neutral, and whenever we convert a
-  redex of $a$, we get a term $a' \in \mathscr{C}\llrr{A}^L_k$, then
-  it means, $\forall a',\ a \sgarr a' \sgarr^{*} v \in \mathscr{V}\llrr{A}^L_k$, hence
-  $a \in \mathscr{C}\llrr{A}^L_k$. \\
-As we don't count computation steps in Logical fragment, k is constant
-in all cases above.\\
-Hence Parametric Interpretations of types in L fragment are actually
-reducibility candidates.\\
-We can use Lemmas for Substitution, universal abstraction and
-universal application as given in proofs and types book, section 14.2.\\
-
-We now define well formed type and value substitutions :\\
-\textbf{Well formed type substitutions :}\\
-$$
-\mathcal{D}\llbracket . \rrbracket = \{\phi\}
-$$
-$$
-\mathcal{D}\llbracket \Delta,\alpha \rrbracket = \{\rho[\alpha \rightarrow X]\ |\
-\rho \in \mathcal{D}\llbracket \Delta \rrbracket \wedge FTV(X) \in dom(\rho) \}
-$$
-\\
-\textbf{Well formed value substitutions :}\\
-$$
-\mathcal{G}\llbracket . \rrbracket = \{\phi\}
-$$
-$$
-\mathcal{G}\llbracket \Gamma , x:\tau \rrbracket^\rho_k = \{\gamma [x
-\rightarrow v]\ |\ \gamma \in \mathcal{G}\llbracket \Gamma
-\rrbracket^\rho_k \wedge v \in  \mathscr{V} \llbracket \rho(\tau) \rrbracket_k \}
-$$
-\\ 
-\textbf{New Soundness Theorem : } If $\Delta,\Gamma \vdash^\theta t :
-T $ and $\Gamma \vDash_k \rho$, $\Delta \vDash \gamma$ then, $\rho
-(\gamma (t)) \in PAR\mathscr{C}\llrr{T}^\theta_k[\ub{R}/\ub{X}]$\\
-\textbf{Proof :} By induction on typing derivation. \\
-\begin{\itemize}
-\item T-UNIV-APP : 
-$ \inference{\Delta\Gamma \vdash^{L} e:\forall \alpha.A \quad \Delta \vdash
-B \quad }{\Delta\Gamma \vdash^{L} e[B]:[B/\alpha]A}  $\\
- By def.
-
-  $$
-PAR\mathscr{C}\llrr{T}^L_k[\ub{R}/\ub{X}] = \{a | . \vdash
-  a:T[\ub{V}/\ub{X}]\ and\ a \sgarr^{*} v \in
-  PAR\mathscr{V}\llrr{T}^L_k[\ub{R}/\ub{X}] \}
-$$
-\textbf{(i) : }   $\rho(\gamma (t)) : T[\ub{V}/\ub{X}]$ by appeal to
-the substitution lemma.\\
-\textbf{(ii) : } for $T = \forall Y.A$ we need to prove that $\rho(\gamma (t)) \sgarr^{*} v \in
-  PAR\mathscr{V}\llrr{T}^L_k[\ub{R}/\ub{X}]$\\
-Or, from the definition of $PAR\mathscr{V}\llrr{T}^L_k[\ub{R}/\ub{X}]$, $\forall V:type\ s.t.\ S\
-is\ C.R.\ of\ V, vV \in PAR\mathscr{V}\llrr{T}^L_k[\ub{R}/\ub{X},S/Y]$\\
-\\
-From Induction Hypothesis, on T-Univ-App :\\
-$\Delta\Gamma \vdash^L t:\forall Y.A$\\
-So, $\rho(\gamma(t)) \in PAR\mathscr{C}\llrr{\forall
-  Y.A}^L_k[\ub{R}/\ub{X}]$\\
- $ =>\wedge Y.\rho(\gamma(e)) \in PAR\mathscr{V}\llrr{\forall
-  Y.A}^L_k[\ub{R}/\ub{X}]$\\
-then from definition, $\forall V:type$ and its C.R. $S$,\\
-$\rho(\gamma[Y \arr V](e)) \in   PAR\mathscr{V}\llrr{\forall
-  Y.A}^L_k[\ub{R}/\ub{X},S/Y]$\\
-proved.
+\message{ !name(RedCParam.tex) !offset(87) }
+$R[A^{\theta'} \arr B]^L_k = \{t| t
+\sgarr^{*} v \wedge irred(v) \wedge
+\forall j \leq k,\ if\ a \in R[A]^{\theta'}_k\ then\ ta\in R[B]^L_j\}$
+\message{ !name(RedCParam.tex) !offset(92) }
 
 \end{document}
-\message{ !name(ParamRedLTheta.tex) !offset(-171) }
